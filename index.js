@@ -33,6 +33,18 @@ var server = http.createServer(function(request, response){
     fs.writeFileSync('./db', newAmount)
     response.write('success')
     response.end()
+  }else if(path === '/xxx'){
+    response.statusCode = 200
+    response.setHeader('Content-Type', 'text/json;charset=utf-8')
+    response.write(`{
+      "note":{
+        "to": "小谷",
+        "from": "方方",
+        "heading": "打招呼",
+        "content": "hi"
+      }
+    }`)
+    response.end()
   }else{  
     response.statusCode = 404
     response.setHeader('Content-Type', 'text/html;charset=utf-8') 
