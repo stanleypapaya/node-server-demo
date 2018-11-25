@@ -27,6 +27,10 @@ var server = http.createServer(function(request, response){
     var string = fs.readFileSync('./main.js', 'utf8')
     response.setHeader('Content-Type', 'application/javascript')
     response.end(string)
+  }else if(path === '/jq.js'){  
+    var string = fs.readFileSync('./jq.js', 'utf8')
+    response.setHeader('Content-Type', 'application/javascript')
+    response.end(string)
   }else if(path === '/pay' && method.toUpperCase() === 'POST'){
     var amount = fs.readFileSync('./db', 'utf-8')
     var newAmount = amount - 1
