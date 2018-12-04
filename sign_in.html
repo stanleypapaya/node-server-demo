@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>注册</title>
+    <title>登录</title>
     <style>
         *{margin: 0; padding: 0; box-sizing: border-box;}
         body{
@@ -31,7 +31,7 @@
 </head>
 <body>
     <div class="form-wrapper">
-        <form id="signUpForm" method="POST">
+        <form id="signInForm" method="POST">
             <div class="row">
                 <label for="">邮箱</label>
                 <input type="text" name="email">
@@ -42,13 +42,8 @@
                 <input type="password" name="password">
                 <span class="error"></span>
             </div>
-            <div>
-                <label for="">确认密码</label>
-                <input type="password" name="password_confirmation">
-                <span class="error"></span>
-            </div>
             <div class="row">
-                <input type="submit" value="注册">
+                <input type="submit" value="登录">
             </div>
         </form>
     </div>
@@ -57,7 +52,7 @@
         let hash = {}
         $('form').on('submit', function(e){
             e.preventDefault()
-            let array = ['email','password','password_confirmation']
+            let array = ['email','password']
             array.forEach((name) => {
                 let value = $('form').find(`[name = ${name}]`).val()
                 hash[name] = value
@@ -75,30 +70,11 @@
                     .text('密码不能为空')
                 return        
             }
-            if(hash['password_confirmation'] === ''){
-                $('form').find('[name="password_confirmation"]').next()
-                    .text('请确认密码')
-                return        
-            }
-            if(hash['password'] !== hash['password_confirmation']){
-                $('form').find('[name="password_confirmation"]').next()
-                    .text('密码不匹配')
-                return        
-            }
-            $.post('/sign_up', hash)
+            $.post('/sign_in', hash)
             .then((response)=>{
-                console.log(response)
+                window.location.href= '/'
             },(request)=>{
-                let {errors} = request.responseJSON
-                console.log(errors)
-                if(errors.email && errors.email === 'invalid'){
-                    $('form').find('[name="email"]').next()
-                    .text('邮箱格式错误')
-                        
-                } else if(errors.email && errors.email === 'inUse'){
-                    $('form').find('[name="email"]').next()
-                    .text('邮箱已经注册')
-                }
+               alert('邮箱和密码不匹配')
             })
         })
     </script>
